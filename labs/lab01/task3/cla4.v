@@ -33,5 +33,35 @@ module cla4(
 
   // TODO: your gate-level P/G, carry, and sum logic goes here.
   // (cout should be connected to c4.) Remember the delay on every gate.
+    // Step 1: Generate/Propagate
+  xor #(2) (p0, a[0], b[0]); xor #(2) (p1, a[1], b[1]); 
+  xor #(2) (p2, a[2], b[2]); xor #(2) (p3, a[3], b[3]);
+  and #(2) (g0, a[0], b[0]); and #(2) (g1, a[1], b[1]); 
+  and #(2) (g2, a[2], b[2]); and #(2) (g3, a[3], b[3]);
+
+  // Step 2: Carry Logic 
+  wire w1; 
+  and #(2) (w1, p0, cin);
+  or  #(2) (c1, g0, w1);
+
+  wire w2, w3; 
+  and #(2) (w2, p1, g0); and #(2) (w3, p1, p0, cin);
+  or  #(2) (c2, g1, w2, w3);
+
+  wire w4, w5, w6; 
+  and #(2) (w4, p2, g1); and #(2) (w5, p2, p1, g0); and #(2) (w6, p2, p1, p0, cin);
+  or  #(2) (c3, g2, w4, w5, w6);
+
+  wire w7, w8, w9, w10; 
+  and #(2) (w7, p3, g2); and #(2) (w8, p3, p2, g1); 
+  and #(2) (w9, p3, p2, p1, g0); and #(2) (w10, p3, p2, p1, p0, cin);
+  or  #(2) (cout, g3, w7, w8, w9, w10);
+
+  // Step 3: Sum Bits
+  xor #(2) (sum[0], p0, cin);
+  xor #(2) (sum[1], p1, c1);
+  xor #(2) (sum[2], p2, c2);
+  xor #(2) (sum[3], p3, c3);
+
 
 endmodule
