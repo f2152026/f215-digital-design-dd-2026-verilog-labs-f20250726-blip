@@ -5,8 +5,7 @@ module and_beh_intra (
 );
 
   always @(*) begin
-    y = #5 a & b;
-
+    y = #1 a & b;
   end
 
 endmodule

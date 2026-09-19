@@ -4,7 +4,6 @@ module and_df (
   output y
 );
 
-assign #5 y = a & b;
-
+  assign #1 y = a & b;
 
 endmodule
